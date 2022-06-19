@@ -4,9 +4,14 @@ class Director():
         self._builder = builder 
         
     def construct_car(self):
+        self._builder.create_new_car()
+        self._builder.add_model()
+        self._builder.add_tires()
+        self._builder.add_engine()
         
         
     def get_car(self):
+        return self._builder.car
         
         
         
@@ -29,7 +34,9 @@ class SkyLarkBuilder(Builder):
 
     def add_tires(self):
         self.car.tires = "Regular tires"
-
+    
+    def add_engine(self):
+        self.car.engine = "Turbo Engine"
     
 
 
@@ -43,4 +50,9 @@ class Car():
     def __str__(self):
         return '{} | {} | {}'.format(self.model, self.tires, self.engine)
 
+builder = SkyLarkBuilder()
+director = Director(builder)
+director.construct_car()
+car = director.get_car()
 
+print(car)
