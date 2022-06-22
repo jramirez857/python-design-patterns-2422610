@@ -7,6 +7,8 @@ class Subject(object): #Represents what is being 'observed'
 	def attach(self, observer):
 		#If the observer is not already in the observers list
 		# append the observer to the list
+		if observer not in self._observers:
+			self._observers.append(observer)	
 
 	def detach(self, observer): #Simply remove the observer
 		try:
@@ -16,8 +18,9 @@ class Subject(object): #Represents what is being 'observed'
 
 	def notify(self, modifier=None):
 		# For all the observers in the list
-			# Don't notify the observer who is actually updating the temperature 
-				# Alert the observers!
+		for observer in self._observers:
+			if modifier != observer: # Don't notify the observer who is actually updating the temperature 
+				observer.update(self) # Alert the observers!
 
 class Core(Subject): #Inherits from the Subject class
 
@@ -34,6 +37,7 @@ class Core(Subject): #Inherits from the Subject class
 	def temp(self, temp):
 		self._temp = temp
 		#Notify the observers whenever somebody changes the core temperature
+		self.notify()
 
 class TempViewer:
 
@@ -41,16 +45,16 @@ class TempViewer:
 		print("Temperature Viewer: {} has Temperature {}".format(subject._name, subject._temp))
 
 #Let's create our subjects
-c1 = 
-c2 = 
+c1 = Core("Core 1")
+c2 = Core("Core 2")
 
 #Let's create our observers
-v1 = 
-v2 = 
+v1 = TempViewer()
+v2 = TempViewer()
 
 #Let's attach our observers to the first core
-c1.
-c1.
+c1.attach(v1)
+c1.attach(v2)
 
 #Let's change the temperature of our first core
 c1.temp = 80
